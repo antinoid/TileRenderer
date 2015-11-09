@@ -1,6 +1,7 @@
 package antinoid.tileengine;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
@@ -13,17 +14,23 @@ import javax.swing.JPanel;
 public class Renderer extends JPanel {
 
     private JFrame frame;
+    private final int width;
+    private final int height;
     private BufferedImage image;
     private int[] pixels;
     private Screen screen;
+    private Map map;
     
     public Renderer(Dimension dim) {
         super();
         setPreferredSize(dim);
+        this.width = dim.width;
+        this.height = dim.height;
         createFrame();
         image = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-        screen = new Screen(dim.width, dim.height);        
+        screen = new Screen(dim.width, dim.height);
+        map = new RandomMap(64, 64, screen);
     }
     
     public Screen getScreen() {
@@ -47,10 +54,14 @@ public class Renderer extends JPanel {
     
     public void render() {
         
-        screen.clear();        
+        screen.clear();
+        map.render(0, 0);
+        System.arraycopy(screen.getPixels(), 0, pixels, 0, pixels.length);
+        System.out.println("pixels[1235]: " + pixels[1235]);
+        Graphics g = getGraphics();
         
-        for (int i = 0; i < pixels.length; i++) {
-           // pixels
-        }
+        g.drawImage(image, 0, 0, null);
+        
+        g.dispose();
     }
 }

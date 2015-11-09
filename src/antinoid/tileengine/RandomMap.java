@@ -15,7 +15,7 @@ public class RandomMap extends Map {
         
         for(int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                tiles[y][x] = random.nextInt(2);
+                tiles[x + y * width] = random.nextInt(3);
             }
         }
     }

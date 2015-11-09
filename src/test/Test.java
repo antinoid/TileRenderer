@@ -33,7 +33,7 @@ public class Test implements Runnable{
             render();
             
             try {
-                Thread.sleep(16);
+                //Thread.sleep(1);
             } catch (Exception e) {
             }
         }

@@ -6,7 +6,7 @@ package antinoid.tileengine;
  */
 public class Map {
 
-    protected final int[][] tiles;
+    protected final int[] tiles;
     private final int width, height;
     private final Screen screen;
     
@@ -14,7 +14,7 @@ public class Map {
         this.width = width;
         this.height = height;
         this.screen = screen;
-        tiles = new int[width][height];
+        tiles = new int[width * height];
     }
     
     public int getWidth() {
@@ -33,24 +33,24 @@ public class Map {
         // end and start point in Tile precision
         int x0 = (xOffset >> Tile.MASK) - 1;
         int y0 = (yOffset >> Tile.MASK) - 1;
-        int x1 = ((xOffset + screen.getWidth()) >> Tile.SIZE) + 1;
-        int y1 = ((yOffset + screen.getHeight()) >> Tile.SIZE) + 1;
+        int x1 = ((xOffset + screen.getWidth()) >> Tile.MASK) + 1;
+        int y1 = ((yOffset + screen.getHeight()) >> Tile.MASK) + 1;
         
         for(int y = y0; y < y1; y++) {
             for(int x = x0; x < x1; x++) {
                 // convert to screen coordinates in Pixel precision
                 int xPos = (x - xOffset) << Tile.MASK;
                 int yPos = (y - yOffset) << Tile.MASK;
-                System.out.println("x: " + x);
                 screen.renderTile(xPos, yPos, getTile(x, y));
             }
         }
     }
     
     private Tile getTile(int x, int y) {
-        if(x < 0 || x > width || y < 0 || y > height) return Tile.voidTile;
-        if(tiles[y][x] == 0) return Tile.water;
-        if(tiles[y][x] == 1) return Tile.ground;
+        if(x < 0 || x >= width || y < 0 || y >= height) return Tile.voidTile;
+        if(tiles[x + y * width] == 0) return Tile.water;
+        if(tiles[x + y * width] == 1) return Tile.ground;
+        if(tiles[x + y * width] == 2) return Tile.grass;
         return Tile.voidTile;
     }
 }

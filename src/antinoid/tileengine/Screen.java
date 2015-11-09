@@ -7,13 +7,13 @@ package antinoid.tileengine;
 public class Screen {
 
     private final int width, height;
-    protected final int[][] pixels;
+    protected final int[] pixels;
     private int xOffset, yOffset;
     
     public Screen(int width, int height) {
         this.width = width;
         this.height = height;
-        pixels = new int[height][width];
+        pixels = new int[height * width];
     }
     
     public int getWidth() {
@@ -24,7 +24,7 @@ public class Screen {
         return height;
     }
     
-    public int[][] getPixels() {
+    public int[] getPixels() {
         return pixels;
     }
     
@@ -39,13 +39,13 @@ public class Screen {
     }
     
     /**
-     * clears Screen
+     * Clears Screen
      */
     public void clear() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 
-                pixels[y][x] = 0;
+                pixels[x + y * width] = 0;
             }
         }
     }
@@ -57,14 +57,21 @@ public class Screen {
      * @param tile the Tile to be rendered
      */
     public void renderTile(int xPosition, int yPosition, Tile tile) {
-        
-        for (int y = 0; y < tile.SIZE; y++) {
+        for (int y = 0; y < Tile.SIZE; y++) {
             int y2 = y + yPosition;
-            if(y2 < 0 || y >= height) continue;
-            for (int x = 0; x < tile.SIZE; x++) {
+            if(y2 < 0 || y2 >= height) continue;
+            for (int x = 0; x < Tile.SIZE; x++) {
                 int x2 = x + xPosition;
-                if(x2 < 0 ||x2 >= width) continue;
-                pixels[y2][x2] = tile.getPixel(x, y);
+                if(x2 < 0 || x2 >= width) continue;
+                
+                //System.out.println("index: " + (x2 + y2 * width));
+                //try {                    
+                    pixels[x2 + y2 * width] = tile.getPixel(x, y);
+                //} catch (Exception e) {
+                //    System.out.println("x2: " + x2);
+                //    System.out.println("y2: " + y2);
+                //    System.out.println("index: " + (x2 + y2 * width));
+                //}
             }
         }
     }
