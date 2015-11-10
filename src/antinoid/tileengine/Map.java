@@ -39,8 +39,8 @@ public class Map {
         for(int y = y0; y < y1; y++) {
             for(int x = x0; x < x1; x++) {
                 // convert to screen coordinates in Pixel precision
-                int xPos = (x - xOffset) << Tile.MASK;
-                int yPos = (y - yOffset) << Tile.MASK;
+                int xPos = (x << Tile.MASK) - xOffset;
+                int yPos = (y << Tile.MASK) - yOffset;
                 screen.renderTile(xPos, yPos, getTile(x, y));
             }
         }
