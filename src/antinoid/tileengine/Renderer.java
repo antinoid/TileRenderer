@@ -39,7 +39,8 @@ public class Renderer extends JPanel {
         image = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
         screen = new Screen(dim.width, dim.height);
-        map = new RandomMap(64, 64, screen);
+        map = new Map("res/maps/pond.txt", screen);
+        //map = new RandomMap(64, 64, screen);
         input = new InputAdapter();
         addKeyListener(input);
         addMouseListener(input);
