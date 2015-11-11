@@ -25,10 +25,6 @@ public class Spritesheet {
         loadPixels(imagePath);
     }
     
-    public int[] getPixels() {
-        return pixels;
-    }
-    
     private void loadPixels(String imagePath) {
         try {
             BufferedImage image = ImageIO.read(Spritesheet.class.getResource(imagePath));
