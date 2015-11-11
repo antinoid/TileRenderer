@@ -23,9 +23,4 @@ public class Tile {
     public int getPixel(int x, int y) {
         return sprite.getPixel(x, y);
     }
-    
-    public void render(int x, int y, Screen screen) {
-        
-    }
-    
 }

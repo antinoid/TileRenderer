@@ -38,6 +38,11 @@ public class Screen {
         this.yOffset = yOffset;
     }
     
+    public void addOffset(int x, int y) {
+        this.xOffset += x;
+        this.yOffset += y;
+    }
+    
     /**
      * Clears Screen
      */
@@ -63,15 +68,7 @@ public class Screen {
             for (int x = 0; x < Tile.SIZE; x++) {
                 int x2 = x + xPosition;
                 if(x2 < 0 || x2 >= width) continue;
-                
-                //System.out.println("index: " + (x2 + y2 * width));
-                //try {                    
-                    pixels[x2 + y2 * width] = tile.getPixel(x, y);
-                //} catch (Exception e) {
-                //    System.out.println("x2: " + x2);
-                //    System.out.println("y2: " + y2);
-                //    System.out.println("index: " + (x2 + y2 * width));
-                //}
+                pixels[x2 + y2 * width] = tile.getPixel(x, y);
             }
         }
     }
