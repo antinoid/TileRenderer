@@ -22,13 +22,15 @@ public class Renderer extends JPanel {
     private final int height;
     private int[] pixels;
     private int xOffset, yOffset;
-    
+
     private JFrame frame;
     private BufferedImage image;
     private Screen screen;
     private Map map;
-    private InputAdapter input;    
+    private InputAdapter input;
     
+    private Sprite fish = Sprite.fishLeft;
+
     public Renderer(Dimension dim) {
         super();
         setPreferredSize(dim);
@@ -47,16 +49,16 @@ public class Renderer extends JPanel {
         addMouseMotionListener(input);
         createFrame();
     }
-    
+
     public Screen getScreen() {
         return screen;
     }
-    
+
     public void start() {
         frame.setVisible(true);
         requestFocus();
     }
-    
+
     private void createFrame() {
         frame = new JFrame("Antinoid Simulation");
         frame.setResizable(false);
@@ -67,61 +69,66 @@ public class Renderer extends JPanel {
         frame.setLocationRelativeTo(null);
         frame.createBufferStrategy(3);
     }
-    
-    public void render() {        
+
+    public void render() {
         processInput();
         draw();
     }
-    
+
     // TODO public, call in update loop
     private void processInput() {
-        if(input.up) {
+        if (input.up) {
             yOffset--;
-        } else if(input.down) {
+        } else if (input.down) {
             yOffset++;
         }
-        if(input.left) {
+        if (input.left) {
             xOffset--;
-        } else if(input.right) {
+        } else if (input.right) {
             xOffset++;
         }
-        
-        
+        if (input.resetOffset) {
+            xOffset = 0;
+            yOffset = 0;
+            input.resetOffset = false;
+        }
+
     }
-    
+
     private void draw() {
-        
+
         screen.clear();
         xOffset += input.draggedX;
         yOffset += input.draggedY;
         input.draggedX = 0;
         input.draggedY = 0;
         map.render(xOffset, yOffset);
+        fish.render(200, 200, screen);
         System.arraycopy(screen.getPixels(), 0, pixels, 0, pixels.length);
         Graphics g = getGraphics();
-        
+
         g.drawImage(image, 0, 0, null);
-        
-        g.dispose();        
+
+        g.dispose();
     }
-    
+
     private class InputAdapter implements KeyListener, MouseListener, MouseMotionListener {
-        
+
+        protected boolean resetOffset;
         protected boolean up, down, right, left;
         protected boolean mouseDown;
         protected int draggedX, draggedY;
         private int lastX, lastY;
         private int mouseX, mouseY;
-        
-        
+
         @Override
         public void keyTyped(KeyEvent e) {
         }
-        
+
         @Override
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
-            switch(key) {
+            switch (key) {
                 // fall through intended
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
@@ -143,11 +150,11 @@ public class Renderer extends JPanel {
                     break;
             }
         }
-        
+
         @Override
         public void keyReleased(KeyEvent e) {
             int key = e.getKeyCode();
-            switch(key) {
+            switch (key) {
                 // fall through intended
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
@@ -165,13 +172,16 @@ public class Renderer extends JPanel {
                 case KeyEvent.VK_D:
                     right = false;
                     break;
+                case KeyEvent.VK_SPACE:
+                    resetOffset = true;
+                    break;
                 default:
                     break;
-            }            
+            }
         }
 
         @Override
-        public void mouseClicked(MouseEvent e) {            
+        public void mouseClicked(MouseEvent e) {
         }
 
         @Override

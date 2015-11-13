@@ -13,6 +13,7 @@ public class Spritesheet {
     private int pixels[];
 
     public static final Spritesheet tiles = new Spritesheet("/textures/spritesheet.png", 256);
+    public static final Spritesheet fish = new Spritesheet("/textures/fish.png", 64, 16);
 
     public Spritesheet(String imagePath, int size) {
         this(imagePath, size, size);
