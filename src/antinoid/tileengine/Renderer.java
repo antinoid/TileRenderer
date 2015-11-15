@@ -20,14 +20,14 @@ public class Renderer extends JPanel {
 
     private final int width;
     private final int height;
-    private int[] pixels;
+    private final int[] pixels;
     private int xOffset, yOffset;
 
     private JFrame frame;
-    private BufferedImage image;
-    private Screen screen;
-    private Map map;
-    private InputAdapter input;
+    private final BufferedImage image;
+    private final Screen screen;
+    private final Map map;
+    private final InputAdapter input;
     
     private Sprite fish = Sprite.fishLeft;
 
